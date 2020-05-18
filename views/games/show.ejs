@@ -1,0 +1,136 @@
+<% layout('../base') -%>
+<% block('title', title) -%>
+
+<div class="container mt-4 text-center">
+  <% if (game.status === 'draft') { %>
+    <a href="/games/<%= game.id %>/players" class="btn btn-outline-primary float-left mb-4 <% if (game.status !== 'draft') { %> disabled <% } %>">Manage game players</a>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Gamemode</th>
+            <th scope="col">Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr>
+              <td><%= game.name %></td>
+              <td><%= game.mode %></td>
+              <td><%= game.status %></td>
+              <td class="d-flex justify-content-around">
+                <a href="/games/<%= game.id %>/edit" class="btn btn-warning text-white"> 
+                      <i class="fa fa-pencil fa-lg mr-2"></i>
+                      Edit
+                </a>
+              
+                <form action="/games/<%= game.id %>/?_method=DELETE" method="POST">
+                  <button class="btn btn-danger">
+                    <i class="fa fa-trash-o fa-lg mr-2"></i>
+                    Delete
+                  </button>
+                </form>
+              </td>
+            </tr>
+        </tbody>
+      </table>
+
+      <form action="/games/<%= game.id %>?_method=PATCH" method="POST">
+        <input type="hidden" name="status" value="started">
+        <button type="submit" class="btn btn-primary mt-4 btn-block btn-lg">Start the game</button>
+      </form>
+
+    <% } else if (game.status === 'started') { %>
+    
+      <div class="row">
+        <div class="col-lg-8">
+          <table class="table table-sm">
+            <thead>
+              <th>Shot <% if (game.mode === '301' || game.mode ==='cricket') { %> / Multiplicator <% } %></th>
+              <th>Sector</th>
+            </thead>
+            <tbody>
+              <% if (game.mode === 'around-the-world') { %>
+                <% for(let index = 1; index <= 20; index++) { %>
+                  <tr>
+                      <td>
+                        <form action="/games/<%= game.id %>/shots" method="POST">
+                          <input type="hidden" name="sector" value=<%= index %>>
+                          <input type="hidden" name="multiplicator" value="1">
+                          <input type="submit" value="Shot">
+                        </form>        
+                      </td>
+                        <td><%= index %></td>
+                  </tr>
+                <% } %>
+              <% } else if (game.mode === '301') { %>
+                <% for(let index = 1; index <= 20; index++) { %>
+                  <tr>
+                      <td>
+                        <form action="/games/<%= game.id %>/shots" method="POST">
+                          <input type="hidden" name="sector" value=<%= index %>>
+                          <input type="submit" value="Shot">
+                          <select type="select" name="multiplicator">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                          </select>
+                        </form>        
+                      </td>
+                        <td><%= index %></td>        
+                  </tr>
+                <% } %>
+              <% } else { %> 
+              <% } %> 
+            </tbody>
+      
+          </table>
+        </div>
+        <div class="col-sm-4">
+          <h3>Current player : <%= currentPlayer.name %></h3>
+          <div class="row mb-4 d-flex justify-content-around items-center"> 
+            <form action="/games/<%= game.id %>/shots" method="POST">
+              <input type="hidden" name="sector" value="0">
+              <input type="hidden" name="multiplicator" value="0">
+              <button type="submit" class="btn btn-danger">Shot outside (looser)</button>
+            </form>
+            <form action="/games/<%= game.id %>/shots/previous?_method=DELETE" method="POST">
+              <button type="submit" class="btn btn-info">Delete previous shot</button>
+            </form>
+          </div>
+          
+          <h4>Hit history</h4>
+          <div class="mb-4">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Player name</th>
+                  <th scope="col">Sector</th>
+                  <th scope="col">Multiplicator</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <% shots.forEach(shot => { %>
+                    <tr>
+                      <td> 
+                        <% if (currentPlayer.id == shot.playerId) { %> 
+                          <%= currentPlayer.name %> 
+                        <% } else { %> 
+                          <%= shot.playerId %>
+                        <% } %>
+                      </td>
+                      <td><%= shot.selector %></td>
+                      <td><%= shot.multiplicator %></td>
+                    </tr>
+                  <% }) %>                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>      
+ 
+    <% } else { %>  
+      <h3>Game ended</h3>
+      <a href="/games" class="btn btn-dark">Return to games</a>
+    <% } %>
+</div>

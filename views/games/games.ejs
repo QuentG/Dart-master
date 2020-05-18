@@ -1,0 +1,44 @@
+<% layout('../base') -%>
+<% block('title', title) -%>
+
+<div class="container mt-4 text-center">
+  <a href="/players" class="btn btn-outline-primary float-left mb-4">Manage Players</a>
+  <% if (games[0]) { %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Gamemode</th>
+          <th scope="col">Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% games.forEach(game => { %>
+          <tr>
+            <td><%= game.name %></td>
+            <td><%= game.mode %></td>
+            <td><%= game.status %></td>
+            <td class="d-flex justify-content-around">
+              <a href="/games/<%= game.id %>" class="btn btn-success">
+                <i class="fa fa-eye fa-lg mr-2"></i>
+                Show
+              </a>
+
+              <form action="/games/<%= game.id %>/?_method=DELETE" method="POST">
+                <button class="btn btn-danger">
+                  <i class="fa fa-trash-o fa-lg mr-2"></i>
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div class="text-center">
+      <h2 class="py-5">No games 🎯</h2>
+    </div>
+  <% } %>
+</div>

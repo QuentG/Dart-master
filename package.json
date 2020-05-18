@@ -1,0 +1,27 @@
+{
+  "name": "dart-master-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "cli": "node cli.js",
+    "watch": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Quentin GANS",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^3.0.1",
+    "ejs-blocks": "^0.1.4",
+    "email-validator": "^2.0.4",
+    "express": "^4.17.1",
+    "inquirer": "^7.0.4",
+    "lodash": "^4.17.15",
+    "method-override": "^3.0.0",
+    "moment": "^2.24.0",
+    "mongoose": "^5.8.9",
+    "shuffle-array": "^1.0.1"
+  }
+}

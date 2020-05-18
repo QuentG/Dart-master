@@ -1,0 +1,46 @@
+<% layout('../base') -%>
+<% block('title', title) -%>
+
+<div class="container mt-4 text-center">
+  <% if (players[0]) { %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Game win</th>
+          <th scope="col">Game loose</th>
+          <th scope="col">Creation date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% players.forEach(player => { %>
+          <tr>
+            <td><%= player.name %></td>
+            <td><%= player.email %></td>
+            <td><%= player.gameWin %></td>
+            <td><%= player.gameLoose %></td>
+            <td><%= moment(player.createdAt).format('DD/MM/YYYY') %></td>
+            <td class="d-flex justify-content-around">
+              <a href="/players/<%= player.id %>" class="btn btn-success">
+                <i class="fa fa-pencil fa-lg mr-2"></i>
+                Edit
+              </a>
+              <form action="/players/<%= player.id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger ml-2">
+                  <i class="fa fa-trash-o fa-lg mr-2"></i>
+                  Delete
+                </button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <div class="text-center">
+      <h2 class="py-5">No players 🚀</h2>
+    </div>
+  <% } %>
+</div>

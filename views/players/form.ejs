@@ -1,0 +1,31 @@
+<% layout('../base') -%>
+<% block('title', title) -%>
+
+<div class="container mt-4">
+  <h1 class="py-5"><%= title %></h1>
+  <form action="/players<%= method %>" method="POST">
+    <% if (!isNew) { %> 
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" value="<%= player.name %>" id="name">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" class="form-control" name="email" value="<%= player.email %>" id="email">
+      </div>
+    <% } else { %> 
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" id="name">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" class="form-control" name="email" id="email">
+      </div>
+    <% } %>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>

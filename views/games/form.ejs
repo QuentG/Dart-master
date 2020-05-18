@@ -1,0 +1,39 @@
+<% layout('../base') -%>
+<% block('title', title) -%>
+
+<div class="container mt-4">
+  <h1 class="py-5"><%= title %></h1>
+  <form action="/games<%= method %>" method="POST">
+    <% if (!isNew) { %>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" id="name" value="<%= name %>">
+      </div>
+
+      <div class="form-group">
+        <label for="mode">Mode</label>
+        <select class="form-control" id="mode" name="mode">
+          <option value="around-the-world" <% if (mode == "around-the-world") { %> selected <% } %>>around-the-world</option>
+          <option value="301" <% if (mode == "301") { %> selected <% } %> >301</option>
+          <option value="cricket" <% if (mode == "cricket") { %> selected <% } %> >cricket</option>
+        </select>
+      </div>
+    <% } else { %>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" id="name">
+      </div>
+
+      <div class="form-group">
+        <label for="mode">Mode</label>
+        <select class="form-control" name="mode" id="mode">
+          <option value="around-the-world">around-the-world</option>
+          <option value="301">301</option>
+          <option value="cricket">cricket</option>
+        </select>
+      </div>
+    <% } %>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>

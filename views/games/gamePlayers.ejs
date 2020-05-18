@@ -1,0 +1,69 @@
+<% layout('../base') -%>
+<% block('title', title) -%>
+
+<div class="container text-center mt-4">
+  <% if (playersInGame[0]) { %>
+    <h2>Players in game</h2>
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% playersInGame.forEach(playerInGame => { %>
+          <tr>
+            <td><%= playerInGame.name %></td>
+            <td><%= playerInGame.email %></td>
+            <td>
+              <form action="/games/<%= gameId %>/players?_method=DELETE" method="POST">
+                <input type="hidden" name="id" value=<%= playerInGame.id %>>
+                <button class="btn btn-danger" type="submit">
+                  <i class="fa fa-trash-o fa-lg mr-2"></i>
+                  Remove from game
+                </button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <h2>No players in the game</h2>
+  <% } %>
+  
+  <% if (players[0]) { %>
+    <h2>All players</h2>
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% players.forEach(player => { %>
+          <tr>
+            <td><%= player.name %></td>
+            <td><%= player.email %></td>
+            <td>
+              <form action="/games/<%= gameId %>/players" method="POST">
+                <input type="hidden" name="player" value=<%= player.id %>>
+                <button class="btn btn-success" type="submit">
+                  <i class="fa fa-pencil fa-lg mr-2"></i>
+                  Add to the game
+                </button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else {%>  
+    <h2>No players in the database</h2>
+  <% } %>
+  
+</div>
