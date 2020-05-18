@@ -5,7 +5,7 @@
 1. Clonage du projet
 
     ```sh
-    git clone http://git.ynov-bordeaux.com/QuentG/dart-master.git
+    git clone https://github.com/QuentG/Dart-master.git
     ```
 
 2. Installation des dépendances 
